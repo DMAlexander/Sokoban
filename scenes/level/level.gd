@@ -54,15 +54,52 @@ func cell_is_wall(cell: Vector2i) -> bool:
 	return cell in wall_tiles.get_used_cells()
 
 
+func cell_is_box(cell: Vector2i) -> bool:
+	return cell in boxes_tiles.get_used_cells()
+	
+	
+func cell_is_empty(cell: Vector2i) -> bool:
+	return !cell_is_box(cell) and !cell_is_wall(cell)
+	
+	
+func box_can_move(box_tile: Vector2i, direction: Vector2i) -> bool:
+	return cell_is_empty(box_tile + direction)
+	
+
+func move_box(box_tile: Vector2i, direction: Vector2i) -> void:
+	var dest: Vector2i = box_tile + direction
+	
+	boxes_tiles.erase_cell(box_tile)
+	
+	if dest in targets_tiles.get_used_cells():
+		boxes_tiles.set_cell(
+			dest, 
+			SOURCE_ID, 
+			get_atlas_coord_for_layer_type(TileLayers.LayerType.TARGET_BOX)
+		)
+	else:
+		boxes_tiles.set_cell(
+			dest, 
+			SOURCE_ID, 
+			get_atlas_coord_for_layer_type(TileLayers.LayerType.BOX)
+		)
+
+
 func player_move(direction: Vector2i):
 	var new_tile: Vector2i = _player_tile + direction
 	var can_move: bool = true
+	var box_seen: bool = false
 	
 	if cell_is_wall(new_tile) == true:
 		can_move = false
+	if cell_is_box(new_tile) == true:
+		box_seen = true
+		can_move = box_can_move(new_tile, direction)
 		
 	if can_move == true:
 		_total_moves += 1
+		if box_seen == true:
+			move_box(new_tile, direction)
 		place_player_on_title(new_tile)
 
 	
