@@ -23,8 +23,22 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	
+	var md: Vector2i = Vector2i.ZERO
+	
+	if Input.is_action_just_pressed("right"):
+		md = Vector2i.RIGHT
+		player.flip_h = false
+	elif Input.is_action_just_pressed("left"):
+		md = Vector2i.LEFT
+		player.flip_h = true
+	elif Input.is_action_just_pressed("up"):
+		md = Vector2i.UP
+	elif Input.is_action_just_pressed("down"):
+		md = Vector2i.DOWN
 
+	if md != Vector2i.ZERO:
+		print(md)
 
 func place_player_on_title(tile_coord: Vector2i) -> void:
 	var np: Vector2 = Vector2(
