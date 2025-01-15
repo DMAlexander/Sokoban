@@ -24,7 +24,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
+
+
+func place_player_on_title(tile_coord: Vector2i) -> void:
+	var np: Vector2 = Vector2(
+		tile_coord.x * LevelData.TILE_SIZE,
+		tile_coord.y * LevelData.TILE_SIZE,
+	) + tile_layers.position
+	player.position = np
 	
 func get_atlas_coord_for_layer_type(lt: TileLayers.LayerType) -> Vector2i:
 	match lt:
@@ -82,11 +89,12 @@ func setup_level() -> void:
 	
 	clear_tiles()
 	
-	
 	setup_layer(TileLayers.LayerType.FLOOR, floor_tiles, layout)
 	setup_layer(TileLayers.LayerType.WALL, wall_tiles, layout)
 	setup_layer(TileLayers.LayerType.TARGET, targets_tiles, layout)
 	setup_layer(TileLayers.LayerType.BOX, boxes_tiles, layout)
 	setup_layer(TileLayers.LayerType.TARGET_BOX, boxes_tiles, layout)
+	
+	place_player_on_title(layout.get_player_start())
 	
 	move_camera()

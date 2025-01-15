@@ -39,6 +39,7 @@ animations = [{
 }]
 
 [node name="Player" type="AnimatedSprite2D"]
+position = Vector2(18, 12)
 sprite_frames = SubResource("SpriteFrames_68bln")
 animation = &"idle"
 autoplay = "idle"
