@@ -29,7 +29,7 @@ func setup_level(lns: String, raw_level_data: Dictionary) -> LevelLayout:
 	add_tiles_for_layer(layout, TileLayers.LayerType.FLOOR, raw_tiles.Floor)
 	add_tiles_for_layer(layout, TileLayers.LayerType.WALL, raw_tiles.Walls)
 	add_tiles_for_layer(layout, TileLayers.LayerType.BOX, raw_tiles.Boxes)
-	add_tiles_for_layer(layout, TileLayers.LayerType.TARGET_BOX, raw_tiles.TargetBox)
+#	add_tiles_for_layer(layout, TileLayers.LayerType.TARGET_BOX, raw_tiles.TargetBox)
 	add_tiles_for_layer(layout, TileLayers.LayerType.TARGET, raw_tiles.Targets)
 	
 	layout.set_player_start(ps.x, ps.y)
