@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=4 uid="uid://hvgvoyt20mct"]
+[gd_scene load_steps=4 format=4 uid="uid://hvgvoyt20mct"]
 
 [ext_resource type="Texture2D" uid="uid://c53pwd4m2mf8g" path="res://assets/Purple.png" id="1_xw0u1"]
 [ext_resource type="TileSet" uid="uid://cih76gxm0kslj" path="res://assets/level_tiles.tres" id="2_h7rpy"]
+[ext_resource type="PackedScene" uid="uid://ckc3k3jas3bm5" path="res://scenes/player/player.tscn" id="3_3u6wj"]
 
 [node name="Level" type="Node2D"]
 
@@ -34,3 +35,11 @@ tile_set = ExtResource("2_h7rpy")
 [node name="Boxes" type="TileMapLayer" parent="TileLayers"]
 tile_map_data = PackedByteArray("AAAMAAwAAAABAAAAAAAMAA4AAAABAAAAAAAUAAkAAAABAAAAAAAWAA0AAAABAAAAAAATAAwAAAABAAAAAAARAA0AAAABAAAAAAANAAoAAAABAAAAAAA=")
 tile_set = ExtResource("2_h7rpy")
+
+[node name="Player" parent="." instance=ExtResource("3_3u6wj")]
+z_index = 1
+position = Vector2(556, 317)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(577, 377)
+zoom = Vector2(1.5, 1.5)
