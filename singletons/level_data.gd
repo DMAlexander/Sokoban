@@ -48,3 +48,6 @@ func load_level_data() -> void:
 #			new_level_layout.get_player_start().y
 #		])
 		_level_data[lns] = new_level_layout
+
+func get_level_data(ln: String) -> LevelLayout:
+	return _level_data[ln]
