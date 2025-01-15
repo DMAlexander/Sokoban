@@ -14,6 +14,7 @@ const SOURCE_ID = 0
 
 
 var _total_moves: int = 0
+var _player_tile: Vector2i = Vector2i.ZERO
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,7 +39,7 @@ func _process(delta: float) -> void:
 		md = Vector2i.DOWN
 
 	if md != Vector2i.ZERO:
-		print(md)
+		player_move(md)
 
 func place_player_on_title(tile_coord: Vector2i) -> void:
 	var np: Vector2 = Vector2(
@@ -46,6 +47,12 @@ func place_player_on_title(tile_coord: Vector2i) -> void:
 		tile_coord.y * LevelData.TILE_SIZE,
 	) + tile_layers.position
 	player.position = np
+	_player_tile = tile_coord
+
+
+func player_move(direction: Vector2i):
+	var new_tile: Vector2i = _player_tile + direction
+	place_player_on_title(new_tile)
 	
 func get_atlas_coord_for_layer_type(lt: TileLayers.LayerType) -> Vector2i:
 	match lt:
