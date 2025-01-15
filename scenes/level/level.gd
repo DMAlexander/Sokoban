@@ -5,11 +5,12 @@ const SOURCE_ID = 0
 
 
 @onready var tile_layers: Node2D = $TileLayers
-@onready var floor: TileMapLayer = $TileLayers/Floor
-@onready var wall: TileMapLayer = $TileLayers/Wall
-@onready var targets: TileMapLayer = $TileLayers/Targets
-@onready var boxes: TileMapLayer = $TileLayers/Boxes
+@onready var floor_tiles: TileMapLayer = $TileLayers/Floor
+@onready var wall_tiles: TileMapLayer = $TileLayers/Wall
+@onready var targets_tiles: TileMapLayer = $TileLayers/Targets
+@onready var boxes_tiles: TileMapLayer = $TileLayers/Boxes
 @onready var player: AnimatedSprite2D = $Player
+@onready var camera_2d: Camera2D = $Camera2D
 
 
 var _total_moves: int = 0
@@ -17,7 +18,7 @@ var _total_moves: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	setup_level()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,6 +61,19 @@ func clear_tiles() -> void:
 	for tl in tile_layers.get_children():
 		tl.clear()
 		
+
+func move_camera() -> void:
+	
+	var tmr: Rect2i = floor_tiles.get_used_rect()
+	
+	var tm_w_x: float = tmr.size.x * LevelData.TILE_SIZE
+	var tm_w_y: float = tmr.size.y * LevelData.TILE_SIZE
+	
+	var mid_x: float = tm_w_x / 2 + ( tmr.position.x * LevelData.TILE_SIZE )
+	var mid_y: float = tm_w_y / 2 + ( tmr.position.y * LevelData.TILE_SIZE )
+	
+	camera_2d.position = Vector2(mid_x, mid_y)
+		
 func setup_level() -> void:
 	var ln: String = GameManager.get_level_selected()
 	var layout: LevelLayout = LevelData.get_level_data(ln)
@@ -69,8 +83,10 @@ func setup_level() -> void:
 	clear_tiles()
 	
 	
-	setup_layer(TileLayers.LayerType.FLOOR, floor, layout)
-	setup_layer(TileLayers.LayerType.WALL, wall, layout)
-	setup_layer(TileLayers.LayerType.TARGET, targets, layout)
-	setup_layer(TileLayers.LayerType.BOX, boxes, layout)
-	setup_layer(TileLayers.LayerType.TARGET_BOX, boxes, layout)
+	setup_layer(TileLayers.LayerType.FLOOR, floor_tiles, layout)
+	setup_layer(TileLayers.LayerType.WALL, wall_tiles, layout)
+	setup_layer(TileLayers.LayerType.TARGET, targets_tiles, layout)
+	setup_layer(TileLayers.LayerType.BOX, boxes_tiles, layout)
+	setup_layer(TileLayers.LayerType.TARGET_BOX, boxes_tiles, layout)
+	
+	move_camera()
