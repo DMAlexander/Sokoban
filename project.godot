@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Sokoban"
+run/main_scene="res://scenes/level/level.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.png"
+
+[autoload]
+
+LevelData="*res://singletons/level_data.gd"
 
 [rendering]
 
