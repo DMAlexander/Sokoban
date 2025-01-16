@@ -11,6 +11,7 @@ const SOURCE_ID = 0
 @onready var boxes_tiles: TileMapLayer = $TileLayers/Boxes
 @onready var player: AnimatedSprite2D = $Player
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var hud: Hud = $CanvasLayer2/Hud
 
 
 var _total_moves: int = 0
@@ -104,6 +105,7 @@ func player_move(direction: Vector2i):
 		
 	if can_move == true:
 		_total_moves += 1
+		hud.set_moves_label(_total_moves)
 		if box_seen == true:
 			move_box(new_tile, direction)
 		place_player_on_title(new_tile)
@@ -174,3 +176,5 @@ func setup_level() -> void:
 	place_player_on_title(layout.get_player_start())
 	
 	move_camera()
+	
+	hud.new_game(ln)
