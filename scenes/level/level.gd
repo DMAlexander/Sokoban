@@ -16,6 +16,7 @@ const SOURCE_ID = 0
 
 var _total_moves: int = 0
 var _player_tile: Vector2i = Vector2i.ZERO
+var _game_over: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +32,11 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("exit"):
 		GameManager.load_main_scene()
+	
+	
+	if _game_over == true:
+		return
+	
 	
 	var md: Vector2i = Vector2i.ZERO
 	
@@ -92,6 +98,13 @@ func move_box(box_tile: Vector2i, direction: Vector2i) -> void:
 		)
 
 
+func check_game_state() -> void:
+	for t in targets_tiles.get_used_cells():
+		if cell_is_box(t) == false:
+			return
+	_game_over = true
+	ScoreSync.level_completed(GameManager.get_level_selected(), _total_moves)
+
 func player_move(direction: Vector2i):
 	var new_tile: Vector2i = _player_tile + direction
 	var can_move: bool = true
@@ -109,6 +122,7 @@ func player_move(direction: Vector2i):
 		if box_seen == true:
 			move_box(new_tile, direction)
 		place_player_on_title(new_tile)
+		check_game_state()
 
 	
 func get_atlas_coord_for_layer_type(lt: TileLayers.LayerType) -> Vector2i:
@@ -178,3 +192,5 @@ func setup_level() -> void:
 	move_camera()
 	
 	hud.new_game(ln)
+	
+	_game_over = false
